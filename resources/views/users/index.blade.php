@@ -6,6 +6,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
+                    
+                    <a class="btn btn-success pull-right" href="/users/create">Create User </a>
+                    <br><br>
                     <div class="card">       
                         <div class="card-body">
                             <table class="table">
@@ -33,9 +36,9 @@
                 </div>
             </div>
         </div>
-    
+{{--     
 
-    @include('shared.footer')
+    @include('shared.footer') --}}
 @endsection
 
 @section('scripts')
