@@ -59,6 +59,11 @@ class PostController extends Controller
     public function show($id)
     {
         //
+        $post = Post::find($id);
+               //select * from users where id = $id
+      
+        return view('posts.show', compact('post'));
+
     }
 
     /**
@@ -70,6 +75,10 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        //select * from users where id = $id
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -82,6 +91,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->save();
+
+        return redirect('/posts');
     }
 
     /**
@@ -93,5 +108,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect('/posts');
     }
 }
