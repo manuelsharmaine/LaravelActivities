@@ -17,8 +17,9 @@ class PostController extends Controller
     {
         //
 
-        $posts = Post::get();
-        return view('posts.index', compact('posts'));
+        // $posts = Post::where('title','!=','')->get();
+           $posts = Post::whereNotNull('title')->get();
+           return view('posts.index', compact('posts'));
 
     }
 
@@ -42,11 +43,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'description' => 'required',
-        ]);
-
+        // $request->validate([
+        //    'title' => 'required|unique:posts|max:255',
+        //     'description' => 'required',
+        // ]);
+ 
         if($request->hasFile('img')){
             // Get filename with the extension
             $filenameWithExt = $request->file('img')->getClientOriginalName();
@@ -66,8 +67,7 @@ class PostController extends Controller
 
     //    dd($request);
         $post = new Post();
-        $post->title = $request->title;
-        $post->description = $request->description;
+        $post->fill($request->all());
         $post->img = $fileNameToStore;
         $post->save();
 
@@ -80,11 +80,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
         //
-        $post = Post::find($id);
-               //select * from users where id = $id
+        // $post = Post::find($id);
+       //select * from users where id = $id
       
         return view('posts.show', compact('post'));
 
@@ -96,10 +96,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
         //
-        $post = Post::find($id);
+        // $post = Post::find($id);
         //select * from users where id = $id
 
         return view('posts.edit', compact('post'));
@@ -112,10 +112,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
         //
-        $post = Post::find($id);
+        // $post = Post::find($id);
         $post->title = $request->title;
         $post->description = $request->description;
         $post->save();
@@ -129,10 +129,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
         //
-        $post = Post::find($id);
+        // $post = Post::find($id);
         $post->delete();
 
         return redirect('/posts');
