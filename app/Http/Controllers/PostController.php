@@ -15,8 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        $posts = Post::where('title','!=','')->orderBy('created_at','desc')->get();
+        $count = Post::where('title','!=','')->count();
+        return view('posts.index', compact('posts', 'count'));
     }
 
     /**
@@ -76,6 +77,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {    
+        $post = Post::where('title','!=','')->firstOrFail();
         return view('posts.show', compact('post'));
 
     }
@@ -124,6 +126,27 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
 
+        return redirect('/posts');
+    }
+
+    public function deleteBlank()
+    {
+        $delete = Post::where('title','=','')->delete();
+
+        return redirect('/posts');
+    }
+
+    public function archive()
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        return view('posts.archive',compact('posts'));
+    }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->find($id)->restore();
+        
         return redirect('/posts');
     }
 }

@@ -32,5 +32,7 @@ Route::get('/users/create', 'UserController@create');
 Route::get('/users/{id}', 'UserController@show')->name('user.show');
 Route::delete('/users/{id}', 'UserController@destroy')->name('user.destroy');
 
-
+Route::get('/delete-blank-post', 'PostController@deleteBlank');
+Route::get('/posts-archive', 'PostController@archive');
+Route::get('/posts/{id}/restore', 'PostController@restore');
 Route::resource('/posts', 'PostController');
